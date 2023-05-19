@@ -1,15 +1,14 @@
 <html>
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
 </head>
 <body>
     <h3>Multi-File-Download</h3>
     <br/>
-    <button onclick="downloadImages();">Test downloading 11 images</button>
-    <br/><br/>
-    <button onclick="downloadLargeFiles();">Test downloading 20 large files</button>
+    <button onclick="createAndDownloadZip();">Test downloading files as a ZIP</button>
 
     <script>
-        function downloadImages() {
+        function createAndDownloadZip() {
             let urls = [
                 "https://ucarecdn.com/9d1fb67c-3618-4a07-90e7-aa360897b101/",
                 "https://ucarecdn.com/b6b7ab76-ee94-4ed0-a749-dab28f61b006/",
@@ -24,54 +23,58 @@
                 "https://ucarecdn.com/8bd1ca0f-24c1-407d-8e66-c36f8cd2f8bf/"
             ];
 
-            urls.forEach(function (url, index) {
-                setTimeout(function () {
-                    let a = document.createElement('a');
-                    a.href = url;
-                    a.download = "bild" + (index + 1) + ".jpg";
-                    a.style.display = 'none';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                }, index * 1000); // Delay each download by 1 second (1000 milliseconds)
-            });
-        }
+            let zip = new JSZip();
+            let count = 0;
 
-        function downloadLargeFiles() {
-            let urls = [
-                "/rest/file/1a.bin",
-                "/rest/file/1b.bin",
-                "/rest/file/1c.bin",
-                "/rest/file/1d.bin",
-                "/rest/file/1e.bin",
-                "/rest/file/1f.bin",
-                "/rest/file/1g.bin",
-                "/rest/file/1h.bin",
-                "/rest/file/1i.bin",
-                "/rest/file/1j.bin",
-                "/rest/file/1k.bin",
-                "/rest/file/1l.bin",
-                "/rest/file/1m.bin",
-                "/rest/file/1n.bin",
-                "/rest/file/1o.bin",
-                "/rest/file/1p.bin",
-                "/rest/file/1q.bin",
-                "/rest/file/1r.bin",
-                "/rest/file/1s.bin",
-                "/rest/file/1t.bin"
-            ];
+            function addFileToZip(url, filename) {
+                return new Promise((resolve, reject) => {
+                    fetch(url)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            zip.file(filename, blob);
+                            resolve();
+                        })
+                        .catch(error => reject(error));
+                });
+            }
 
-            urls.forEach(function (url, index) {
-                setTimeout(function () {
-                    let a = document.createElement('a');
-                    a.href = url;
-                    a.download = "file" + (index + 1) + ".bin";
-                    a.style.display = 'none';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                }, index * 1000); // Delay each download by 1 second (1000 milliseconds)
-            });
+            function downloadZip() {
+                zip.generateAsync({ type: "blob" })
+                    .then(blob => {
+                        let zipFilename = "files.zip";
+                        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                            // For IE and Edge
+                            window.navigator.msSaveOrOpenBlob(blob, zipFilename);
+                        } else {
+                            // For other browsers
+                            let link = document.createElement('a');
+                            link.href = URL.createObjectURL(blob);
+                            link.download = zipFilename;
+                            link.click();
+                        }
+                    });
+            }
+
+            function processNextFile() {
+                if (count < urls.length) {
+                    let url = urls[count];
+                    let filename = "file" + (count + 1) + ".jpg";
+                    addFileToZip(url, filename)
+                        .then(() => {
+                            count++;
+                            processNextFile();
+                        })
+                        .catch(error => {
+                            console.error("Error adding file to zip:", error);
+                            count++;
+                            processNextFile();
+                        });
+                } else {
+                    downloadZip();
+                }
+            }
+
+            processNextFile();
         }
     </script>
 </body>
