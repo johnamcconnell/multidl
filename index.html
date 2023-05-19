@@ -1,6 +1,5 @@
 <html>
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.js"></script>
 </head>
 <body>
     <h3>Multi-File-Download</h3>
@@ -26,13 +25,15 @@
             ];
 
             urls.forEach(function (url, index) {
-                let a = document.createElement('a');
-                a.href = url;
-                a.download = "bild" + (index + 1) + ".jpg";
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                setTimeout(function () {
+                    let a = document.createElement('a');
+                    a.href = url;
+                    a.download = "bild" + (index + 1) + ".jpg";
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }, index * 1000); // Delay each download by 1 second (1000 milliseconds)
             });
         }
 
@@ -61,13 +62,15 @@
             ];
 
             urls.forEach(function (url, index) {
-                let a = document.createElement('a');
-                a.href = url;
-                a.download = "file" + (index + 1) + ".bin";
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                setTimeout(function () {
+                    let a = document.createElement('a');
+                    a.href = url;
+                    a.download = "file" + (index + 1) + ".bin";
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }, index * 1000); // Delay each download by 1 second (1000 milliseconds)
             });
         }
     </script>
