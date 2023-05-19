@@ -7,21 +7,21 @@
   function download_next(i) {
     if (i >= files.length) {
       return;
-    }
+    };
     var a document.createElement('a');
     a.href = files[i].download;
     a.target = '_parent';
     // use a.download if available, it prevents plugins from opening.
     if ('download' in a) {
       a.download = files[i].filename;
-    }
+    };
     // add a to the doc for click to work.
     (document.body || document.documentElement).appendChild(a);
     if (a.click) {
       a.click(); //click method supported by most browsers
     } else {
       $(a).click(); //backup using jquery
-    }
+    };
     // delete temp link
     a.parentNode.removeChild(a);
     // download next file with a timeout. timeout is necessary
@@ -31,10 +31,9 @@
     }, 500); //timeout set for 500ms
     // Initiate the first download
     download_next(0);
-  }
-    </script>
-    <script>
-        function do_dl() {
+  };
+
+            function do_dl() {
             download_files([
               { download: "https://ucarecdn.com/9d1fb67c-3618-4a07-90e7-aa360897b101/", filename: "bild1.jpg" },
               { download: "https://ucarecdn.com/b6b7ab76-ee94-4ed0-a749-dab28f61b006/", filename: "bild2.jpg" },
