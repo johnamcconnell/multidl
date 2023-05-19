@@ -1,0 +1,87 @@
+<html>
+<head>
+    <script src="multidownload.js"></script>
+    <script src="https://greasyfork.org/scripts/2350-filesaver-js/code/filesaverjs.js?version=6255"></script>
+    <script>
+        function do_dl() {
+            download_files([
+              { download: "https://ucarecdn.com/9d1fb67c-3618-4a07-90e7-aa360897b101/", filename: "bild1.jpg" },
+              { download: "https://ucarecdn.com/b6b7ab76-ee94-4ed0-a749-dab28f61b006/", filename: "bild2.jpg" },
+              { download: "https://ucarecdn.com/8a7a4af8-8c64-4daa-acc7-7e204a11d0fa/", filename: "bild3.jpg" },
+              { download: "https://ucarecdn.com/b48c8c17-605a-4d2b-8796-d21d357d03fb/", filename: "bild4.jpg" },
+              { download: "https://ucarecdn.com/15ef8466-462b-43b2-a92e-ad0f7cbd4d61/", filename: "bild5.jpg" },
+              { download: "https://ucarecdn.com/f29c1409-9102-42d9-8b6c-2d91aa4ec806/", filename: "bild6.jpg" },
+              { download: "https://ucarecdn.com/ce7367f2-79e0-4680-85a8-d6e0d8a36d21/", filename: "bild7.jpg" },
+              { download: "https://ucarecdn.com/a8974807-fd59-4b79-8d2e-0abfda2016a3/", filename: "bild8.jpg" },
+              { download: "https://ucarecdn.com/8072953e-6436-4941-878c-874a07c17f46/", filename: "bild9.jpg" },
+              { download: "https://ucarecdn.com/ca4ccba2-c268-49d1-81b5-797da7fe4780/", filename: "bild10.jpg" },
+              { download: "https://ucarecdn.com/8bd1ca0f-24c1-407d-8e66-c36f8cd2f8bf/", filename: "bild11.jpg" },
+            ]);
+        };
+        function do_dl_l() {
+            download_files([
+              { download: "/rest/file/1a.bin", filename: "1a.bin" },
+              { download: "/rest/file/1b.bin", filename: "1b.bin" },
+              { download: "/rest/file/1c.bin", filename: "1c.bin" },
+              { download: "/rest/file/1d.bin", filename: "1d.bin" },
+              { download: "/rest/file/1e.bin", filename: "1e.bin" },
+              { download: "/rest/file/1f.bin", filename: "1f.bin" },
+              { download: "/rest/file/1g.bin", filename: "1g.bin" },
+              { download: "/rest/file/1h.bin", filename: "1h.bin" },
+              { download: "/rest/file/1i.bin", filename: "1i.bin" },
+              { download: "/rest/file/1j.bin", filename: "1j.bin" },
+              { download: "/rest/file/1k.bin", filename: "1k.bin" },
+              { download: "/rest/file/1l.bin", filename: "1l.bin" },
+              { download: "/rest/file/1m.bin", filename: "1m.bin" },
+              { download: "/rest/file/1n.bin", filename: "1n.bin" },
+              { download: "/rest/file/1o.bin", filename: "1o.bin" },
+              { download: "/rest/file/1p.bin", filename: "1p.bin" },
+              { download: "/rest/file/1q.bin", filename: "1q.bin" },
+              { download: "/rest/file/1r.bin", filename: "1r.bin" },
+              { download: "/rest/file/1s.bin", filename: "1s.bin" },
+              { download: "/rest/file/1t.bin", filename: "1t.bin" },
+            ]);
+        };
+        function do_dl_fs() {
+            let urls = [
+              { download: "/rest/file/1a.bin", filename: "1a.bin" },
+              { download: "/rest/file/1b.bin", filename: "1b.bin" },
+              { download: "/rest/file/1c.bin", filename: "1c.bin" },
+              { download: "/rest/file/1d.bin", filename: "1d.bin" },
+              { download: "/rest/file/1e.bin", filename: "1e.bin" },
+              { download: "/rest/file/1f.bin", filename: "1f.bin" },
+              { download: "/rest/file/1g.bin", filename: "1g.bin" },
+              { download: "/rest/file/1h.bin", filename: "1h.bin" },
+              { download: "/rest/file/1i.bin", filename: "1i.bin" },
+              { download: "/rest/file/1j.bin", filename: "1j.bin" },
+              { download: "/rest/file/1k.bin", filename: "1k.bin" },
+              { download: "/rest/file/1l.bin", filename: "1l.bin" },
+              { download: "/rest/file/1m.bin", filename: "1m.bin" },
+              { download: "/rest/file/1n.bin", filename: "1n.bin" },
+              { download: "/rest/file/1o.bin", filename: "1o.bin" },
+              { download: "/rest/file/1p.bin", filename: "1p.bin" },
+              { download: "/rest/file/1q.bin", filename: "1q.bin" },
+              { download: "/rest/file/1r.bin", filename: "1r.bin" },
+              { download: "/rest/file/1s.bin", filename: "1s.bin" },
+              { download: "/rest/file/1t.bin", filename: "1t.bin" },
+            ];
+            urls.forEach(function (e) {
+                fetch(e.download)
+                  .then(res => res.blob()) // Gets the response and returns it as a blob
+                  .then(blob => {
+                    saveAs(blob, e.filename);
+                });
+            });
+        };
+    </script>
+</head>
+<body>
+    <h3>Multi-File-Download</h3>
+    <br/>
+    <button onclick="do_dl();">Test downloading 11 images</button>
+    <br/><br/>
+    <button onclick="do_dl_l();">Test downloading 20 large files</button>
+    <br/><br/>
+    <button onclick="do_dl_fs();">Test downloading 20 large files with FileSaver</button>
+</body>
+</html>
