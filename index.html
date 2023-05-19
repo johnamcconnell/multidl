@@ -50,7 +50,7 @@
               { download: "https://ucarecdn.com/ca4ccba2-c268-49d1-81b5-797da7fe4780/", filename: "bild10.jpg" },
               { download: "https://ucarecdn.com/8bd1ca0f-24c1-407d-8e66-c36f8cd2f8bf/", filename: "bild11.jpg" },
             ]);
-        };
+        }
         function do_dl_l() {
             download_files([
               { download: "/rest/file/1a.bin", filename: "1a.bin" },
@@ -74,7 +74,7 @@
               { download: "/rest/file/1s.bin", filename: "1s.bin" },
               { download: "/rest/file/1t.bin", filename: "1t.bin" },
             ]);
-        };
+        }
         function do_dl_fs() {
             let urls = [
               { download: "/rest/file/1a.bin", filename: "1a.bin" },
@@ -100,9 +100,14 @@
             ];
             urls.forEach(function (e) {
                 fetch(e.download)
-                  .then(res => res.blob()) // Gets the response and returns it as a blob
-                  .then(blob => {
+                .then(function (res) { return res.blob(); })
+                .then(function (blob) {
                     saveAs(blob, e.filename);
+//             urls.forEach(function (e) {
+//                 fetch(e.download)
+//                   .then(res => res.blob()) // Gets the response and returns it as a blob
+//                   .then(blob => {
+//                     saveAs(blob, e.filename);
                 });
             });
         };
